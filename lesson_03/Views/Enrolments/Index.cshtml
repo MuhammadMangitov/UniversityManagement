@@ -1,0 +1,57 @@
+﻿@model IEnumerable<lesson_03.Entities.Enrolment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Enrolment</h1>
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-square-dotted"></i>
+        Create New
+    </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EnrolmentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseAssigment)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrolmentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student.FirsName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseAssigment.Room)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn" style="background-color: #007bfe; color: white;">
+                        <i class="bi bi-pencil-square"></i>
+                        Edit
+                    </a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn" style="background-color: #FF5733; color: white;">
+                        <i class="bi bi-info-circle-fill"></i>
+                        Details
+                    </a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
+                        <i class="bi bi-trash3"></i>
+                        Delete
+                    </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
