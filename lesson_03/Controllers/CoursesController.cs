@@ -22,7 +22,7 @@ namespace lesson_03.Controllers
         // GET: Courses
         public async Task<IActionResult> Index()
         {
-            var universtiyDbContext = _context.Courses.Include(c => c.Department);
+            var universtiyDbContext = _context.Courses.Include(c => c.Category);
             return View(await universtiyDbContext.ToListAsync());
         }
 
@@ -35,7 +35,7 @@ namespace lesson_03.Controllers
             }
 
             var course = await _context.Courses
-                .Include(c => c.Department)
+                .Include(c => c.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {
@@ -48,7 +48,7 @@ namespace lesson_03.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name");
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace lesson_03.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Price,Hourse,DepartmentId")] Course course)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Hourse,CategoryId")] Course course)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace lesson_03.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", course.DepartmentId);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", course.CategoryId);
             return View(course);
         }
 
@@ -82,7 +82,7 @@ namespace lesson_03.Controllers
             {
                 return NotFound();
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", course.DepartmentId);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", course.CategoryId);
             return View(course);
         }
 
@@ -91,7 +91,7 @@ namespace lesson_03.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Hourse,DepartmentId")] Course course)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Hourse,CategoryId")] Course course)
         {
             if (id != course.Id)
             {
@@ -118,7 +118,7 @@ namespace lesson_03.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", course.DepartmentId);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", course.CategoryId);
             return View(course);
         }
 
@@ -131,7 +131,7 @@ namespace lesson_03.Controllers
             }
 
             var course = await _context.Courses
-                .Include(c => c.Department)
+                .Include(c => c.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {

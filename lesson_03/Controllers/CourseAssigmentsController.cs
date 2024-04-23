@@ -23,6 +23,8 @@ namespace lesson_03.Controllers
         public async Task<IActionResult> Index()
         {
             var universtiyDbContext = _context.CourseAssigments.Include(c => c.Course).Include(c => c.Instructor);
+
+
             return View(await universtiyDbContext.ToListAsync());
         }
 
@@ -67,7 +69,7 @@ namespace lesson_03.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CoureseId"] = new SelectList(_context.Courses, "Id", "Name", courseAssigment.CoureseId);
+            ViewData["CoureseId"] = new SelectList(_context.Courses, "Id", "Name", courseAssigment.CourseId);
             ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "FirstName", courseAssigment.InstructorId);
             return View(courseAssigment);
         }
@@ -85,7 +87,7 @@ namespace lesson_03.Controllers
             {
                 return NotFound();
             }
-            ViewData["CoureseId"] = new SelectList(_context.Courses, "Id", "Name", courseAssigment.CoureseId);
+            ViewData["CoureseId"] = new SelectList(_context.Courses, "Id", "Name", courseAssigment.CourseId);
             ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "FirstName", courseAssigment.InstructorId);
             return View(courseAssigment);
         }
@@ -122,7 +124,7 @@ namespace lesson_03.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CoureseId"] = new SelectList(_context.Courses, "Id", "Name", courseAssigment.CoureseId);
+            ViewData["CoureseId"] = new SelectList(_context.Courses, "Id", "Name", courseAssigment.CourseId);
             ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "FirstName", courseAssigment.InstructorId);
             return View(courseAssigment);
         }

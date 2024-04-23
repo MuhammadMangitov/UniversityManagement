@@ -6,7 +6,6 @@ namespace lesson_03.Entities
     [Table(nameof(Student))]
     public class Student
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required,
          MaxLength(255, ErrorMessage = "Maximum amount of characters exceeded."),
@@ -20,8 +19,8 @@ namespace lesson_03.Entities
         public string  StudentEmial { get; set; }
         public string  Gender { get; set; }
         public virtual ICollection<Enrolment> Enrolments { get; set; }
-
-        public Student() {
+        public Student() 
+        {
             Enrolments = new List<Enrolment>();
         }
     }

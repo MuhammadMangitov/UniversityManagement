@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace lesson_03.Entities
 {
+    [Table(nameof(Instructor))]
     public class Instructor
     {
         public int Id { get; set; }

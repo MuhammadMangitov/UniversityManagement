@@ -1,4 +1,4 @@
-﻿@model lesson_03.Entities.Course
+﻿@model lesson_03.Entities.Category
 
 @{
     ViewData["Title"] = "Create";
@@ -6,7 +6,7 @@
 
 <h1>Create</h1>
 
-<h4>Course</h4>
+<h4>Category</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,18 +18,13 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Hourse" class="control-label"></label>
-                <input asp-for="Hourse" class="form-control" />
-                <span asp-validation-for="Hourse" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
+                <label asp-for="ParentId" class="control-label"></label>
+                <select asp-for="ParentId" class ="form-control" asp-items="ViewBag.ParentId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

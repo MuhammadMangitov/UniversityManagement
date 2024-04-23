@@ -5,15 +5,15 @@
 namespace lesson_03.Migrations
 {
     /// <inheritdoc />
-    public partial class gender : Migration
+    public partial class add_description : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Gender",
-                table: "Student",
-                type: "TEXT",
+                name: "Description",
+                table: "Departments",
+                type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
         }
@@ -22,8 +22,8 @@ namespace lesson_03.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Gender",
-                table: "Student");
+                name: "Description",
+                table: "Departments");
         }
     }
 }

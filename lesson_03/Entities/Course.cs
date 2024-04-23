@@ -15,9 +15,8 @@ namespace lesson_03.Entities
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
         public int Hourse {  get; set; }
-        [ForeignKey(nameof(DepartmentId))]
-        public int DepartmentId {  get; set; }
-        public Department? Department { get; set; }
+        public int CategoryId { get; set; }
+        public Category? Category { get; set; }
         public virtual ICollection<CourseAssigment> Assigments { get; set; }
 
         public Course()

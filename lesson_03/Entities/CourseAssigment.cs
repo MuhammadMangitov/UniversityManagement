@@ -8,7 +8,7 @@ namespace lesson_03.Entities
         public string Room { get; set; }
 
         [DisplayName("Course")]
-        public  int  CoureseId { get; set; }
+        public  int  CourseId { get; set; }
         public Course? Course { get; set; }
 
         [DisplayName("Instructor")]

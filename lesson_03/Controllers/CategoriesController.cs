@@ -10,37 +10,23 @@ using lesson_03.Entities;
 
 namespace lesson_03.Controllers
 {
-    public class StudentsController : Controller
+    public class CategoriesController : Controller
     {
         private readonly UniverstiyDbContext _context;
 
-        public StudentsController(UniverstiyDbContext context)
+        public CategoriesController(UniverstiyDbContext context)
         {
             _context = context;
         }
 
-        // GET: Students
-        //public async Task<IActionResult> Index()
-        // {
-
-        //     return View(await _context.Students.ToListAsync());
-        // }
-        
-        public async Task<IActionResult> Index(string searchString)
+        // GET: Categories
+        public async Task<IActionResult> Index()
         {
-            var students = from m in _context.Students
-                         select m;
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                students = students.Where(s => s.FirsName!.Contains(searchString));
-            }
-
-            ViewBag.Search = searchString;
-            return View(await students.ToListAsync());
+            var universtiyDbContext = _context.Categories.Include(c => c.Parent);
+            return View(await universtiyDbContext.ToListAsync());
         }
 
-        // GET: Students/Details/5
+        // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,39 +34,42 @@ namespace lesson_03.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var category = await _context.Categories
+                .Include(c => c.Parent)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (student == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(category);
         }
 
-        // GET: Students/Create
+        // GET: Categories/Create
         public IActionResult Create()
         {
+            ViewData["ParentId"] = new SelectList(_context.Categories, "Id", "Id");
             return View();
         }
 
-        // POST: Students/Create
+        // POST: Categories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirsName,LastName,PhoneNumber,StudentEmial,Gender")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,ParentId")] Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(student);
+                _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            ViewData["ParentId"] = new SelectList(_context.Categories, "Id", "Id", category.ParentId);
+            return View(category);
         }
 
-        // GET: Students/Edit/5
+        // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -88,24 +77,23 @@ namespace lesson_03.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
-            //ViewBag.Gender = _context.Students.Where(x=>x.Id==id).Select(x=>x.Gender).FirstOrDefault();
-            return View(student);
+            ViewData["ParentId"] = new SelectList(_context.Categories, "Id", "Id", category.ParentId);
+            return View(category);
         }
 
-        // POST: Students/Edit/5
+        // POST: Categories/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirsName,LastName,PhoneNumber,StudentEmial,Gender")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,ParentId")] Category category)
         {
-
-            if (id != student.Id)
+            if (id != category.Id)
             {
                 return NotFound();
             }
@@ -114,12 +102,12 @@ namespace lesson_03.Controllers
             {
                 try
                 {
-                    _context.Update(student);
+                    _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentExists(student.Id))
+                    if (!CategoryExists(category.Id))
                     {
                         return NotFound();
                     }
@@ -130,10 +118,11 @@ namespace lesson_03.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            ViewData["ParentId"] = new SelectList(_context.Categories, "Id", "Id", category.ParentId);
+            return View(category);
         }
 
-        // GET: Students/Delete/5
+        // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,34 +130,35 @@ namespace lesson_03.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var category = await _context.Categories
+                .Include(c => c.Parent)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (student == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(category);
         }
 
-        // POST: Students/Delete/5
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _context.Students.FindAsync(id);
-            if (student != null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category != null)
             {
-                _context.Students.Remove(student);
+                _context.Categories.Remove(category);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StudentExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.Students.Any(e => e.Id == id);
+            return _context.Categories.Any(e => e.Id == id);
         }
     }
 }
