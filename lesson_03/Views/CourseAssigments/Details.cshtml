@@ -31,8 +31,11 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index" class="btn btn-secondary" style="margin-top: 5px;">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn" style="background-color: #007bfe; color: white;">
+        <i class="bi bi-pencil-square"></i>
+        Edit
+    </a>
+    <a asp-action="Index" class="btn btn-secondary" style="margin-top: 0px;">
         Back to List
     </a>
 </div>

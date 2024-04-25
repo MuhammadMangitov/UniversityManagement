@@ -10,7 +10,26 @@
         Create New
     </a>
 </p>
-<table class="table">
+
+<form asp-controller="Students" asp-action="Index">
+    <p>
+        <div class="input-group">
+            <div>
+                <select asp-items="@ViewBag.Gender" name="StudentGender" class="form-control-sm mr-sm-2">
+                    <option value="">All Genders</option>
+                </select>
+            </div>
+            <div>
+                <input type="text" name="SearchString" value="@ViewBag.Search"
+                       class="form-control form-control-sm mr-sm-2" placeholder="Search" />
+            </div>
+            <div>
+                <button class="btn btn-sm btn-outline-secondary mr-sm-2" type="submit">Filter</button>
+            </div>
+        </div>
+    </p>
+</form>
+<table class="table table-bordered">
     <thead>
         <tr>
             <th>

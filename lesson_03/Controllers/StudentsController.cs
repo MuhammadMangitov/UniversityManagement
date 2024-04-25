@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using lesson_03.Data;
 using lesson_03.Entities;
+using static Bogus.DataSets.Name;
+using System.Web.Mvc.Html;
 
 namespace lesson_03.Controllers
 {
@@ -18,29 +20,29 @@ namespace lesson_03.Controllers
         {
             _context = context;
         }
-
-        // GET: Students
-        //public async Task<IActionResult> Index()
-        // {
-
-        //     return View(await _context.Students.ToListAsync());
-        // }
         
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string? searchString, string? studentGender )
         {
-            var students = from m in _context.Students
-                         select m;
+            var query = _context.Students
+                .AsQueryable();
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                students = students.Where(s => s.FirsName!.Contains(searchString));
+                query = query.Where(s => s.FirsName!.Contains(searchString));
             }
 
+            if (studentGender == Gender.Male.ToString() || studentGender == Gender.Female.ToString())
+            {
+                query = query.Where(c => c.Gender == studentGender);
+            }
+
+            List<Gender> genders = Enum.GetValues(typeof(Gender)).Cast<Gender>().ToList();
+            ViewBag.Genders = new SelectList(genders.Select(g => g.ToString()).ToList(), studentGender);
             ViewBag.Search = searchString;
-            return View(await students.ToListAsync());
+
+            return View(query.ToList());
         }
 
-        // GET: Students/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -58,7 +60,6 @@ namespace lesson_03.Controllers
             return View(student);
         }
 
-        // GET: Students/Create
         public IActionResult Create()
         {
             return View();

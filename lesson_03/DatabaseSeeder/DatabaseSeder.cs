@@ -51,7 +51,7 @@ namespace lesson_03.DatabaseSeeder
             if(context.Departments.Any()) return;
 
             var faker = DepartmentsCreator.GetFaker();
-            var departments = faker.Generate(25);
+            var departments = faker.Generate(20);
 
             context.Departments.AddRange(departments);
             context.SaveChanges();
@@ -109,6 +109,7 @@ namespace lesson_03.DatabaseSeeder
         }
         public static void CreateEnrolment(UniverstiyDbContext context)
         {
+            if (context.CourseAssigments.Any()) return;
             var faker = EnrolmentCreator.GetFaker(context);
             var enrolment = faker.Generate(30);
 

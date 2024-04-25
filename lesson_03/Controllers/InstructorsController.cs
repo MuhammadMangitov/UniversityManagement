@@ -38,7 +38,7 @@ namespace lesson_03.Controllers
             }
 
             var instructors = await query.ToListAsync();
-            var departaments =await _context.Departments.ToListAsync();
+            var departaments = await _context.Departments.ToListAsync();
             var selectedDepartament = departaments.FirstOrDefault(x => x.Id == departamentId);
 
             ViewBag.DepartamentId = new SelectList(departaments, "Id", "Name", selectedDepartament?.Id);
