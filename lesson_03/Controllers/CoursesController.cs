@@ -20,10 +20,32 @@ namespace lesson_03.Controllers
         }
 
         // GET: Courses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchString, int? categoryId)
         {
-            var universtiyDbContext = _context.Courses.Include(c => c.Category);
-            return View(await universtiyDbContext.ToListAsync());
+            var query = _context.Courses
+                .Include(x => x.Category)
+                .AsQueryable();
+
+            //var universtiyDbContext = _context.Courses.Include(c => c.Category);
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(x => x.Name.Contains(searchString));
+            }
+
+            if (categoryId.HasValue)
+            {
+                query = query.Where(x => x.CategoryId == categoryId);
+            }
+
+            var courses = await query.ToListAsync();
+            var categories = await _context.Categories.ToListAsync();
+            var selectedCategory = categories.FirstOrDefault(x => x.Id == categoryId);
+
+            ViewBag.SelectedCategory = new SelectList(categories, "Id", "Name", selectedCategory?.Id);
+            ViewBag.Search = searchString;
+            
+            return View(courses);
         }
 
         // GET: Courses/Details/5

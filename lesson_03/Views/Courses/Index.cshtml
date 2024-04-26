@@ -12,16 +12,16 @@
     </a>
 </p>
 
-<form asp-controller="Students" asp-action="Index">
+<form asp-controller="Courses" asp-action="Index">
     <p>
         <div class="input-group">
             <div>
-                <select asp-items="@ViewBag.Gender" name="StudentGender" class="form-control-sm mr-sm-2">
-                    <option value="">All Genders</option>
+                <select asp-items="@ViewBag.SelectedCategory" name="categoryId" class="form-control-sm mr-sm-2">
+                    <option value="">All Category</option>
                 </select>
             </div>
             <div>
-                <input type="text" name="SearchString" value="@ViewBag.Search"
+                <input type="text" name="searchString" value="@ViewBag.Search"
                        class="form-control form-control-sm mr-sm-2" placeholder="Search" />
             </div>
             <div>

@@ -59,7 +59,6 @@ namespace lesson_03.Controllers
 
             return View(student);
         }
-
         public IActionResult Create()
         {
             return View();
@@ -166,7 +165,6 @@ namespace lesson_03.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool StudentExists(int id)
         {
             return _context.Students.Any(e => e.Id == id);

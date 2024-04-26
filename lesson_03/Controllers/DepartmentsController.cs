@@ -20,9 +20,20 @@ namespace lesson_03.Controllers
         }
 
         // GET: Departments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchstring)
         {
-            return View(await _context.Departments.ToListAsync());
+            var query = _context.Departments
+                .AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchstring))
+            {
+                query = query.Where(x => x.Name!.Contains(searchstring));
+            }
+
+            var departments = await query.ToListAsync();
+            ViewBag.Search = searchstring;
+
+            return View(departments);
         }
 
         // GET: Departments/Details/5

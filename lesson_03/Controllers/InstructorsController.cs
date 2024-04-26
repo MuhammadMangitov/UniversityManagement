@@ -43,6 +43,7 @@ namespace lesson_03.Controllers
 
             ViewBag.DepartamentId = new SelectList(departaments, "Id", "Name", selectedDepartament?.Id);
             ViewBag.Search = searchString;
+
             return View(instructors);
             
         }
