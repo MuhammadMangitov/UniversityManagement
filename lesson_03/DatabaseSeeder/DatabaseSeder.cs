@@ -109,7 +109,7 @@ namespace lesson_03.DatabaseSeeder
         }
         public static void CreateEnrolment(UniverstiyDbContext context)
         {
-            if (context.CourseAssigments.Any()) return;
+            if (context.Enrolments.Any()) return;
             var faker = EnrolmentCreator.GetFaker(context);
             var enrolment = faker.Generate(30);
 

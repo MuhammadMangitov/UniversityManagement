@@ -20,12 +20,21 @@ namespace lesson_03.Controllers
         }
 
         // GET: CourseAssigments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchString)
         {
-            var universtiyDbContext = _context.CourseAssigments.Include(c => c.Course).Include(c => c.Instructor);
+            var query = _context.CourseAssigments
+                .Include(c => c.Course)
+                .Include(c => c.Instructor)
+                .AsQueryable();
+            if (!String.IsNullOrWhiteSpace(searchString))
+            {
+                query = query.Where(x => x.Room!.Contains(searchString));
+            }
 
+            var assigments = await query.ToListAsync();
+            ViewBag.Search = searchString;
 
-            return View(await universtiyDbContext.ToListAsync());
+            return View(assigments);
         }
 
         // GET: CourseAssigments/Details/5

@@ -20,10 +20,20 @@ namespace lesson_03.Controllers
         }
 
         // GET: Categories
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchString)
         {
-            var universtiyDbContext = _context.Categories.Include(c => c.Parent);
-            return View(await universtiyDbContext.ToListAsync());
+            var query = _context.Categories.Include(c => c.Parent)
+                .AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(c => c.Name!.Contains(searchString));
+            }
+
+            var categories = await query.ToListAsync();
+            ViewBag.Search = searchString;    
+
+            return View(categories);
         }
 
         // GET: Categories/Details/5

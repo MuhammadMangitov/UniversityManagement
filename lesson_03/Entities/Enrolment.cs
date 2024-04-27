@@ -10,6 +10,7 @@ namespace lesson_03.Entities
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public DateTime  EnrolmentDate { get; set; }
+
         [DisplayName("Student")]
         public int StudentId { get; set; }
         public Student? Student { get; set; }
